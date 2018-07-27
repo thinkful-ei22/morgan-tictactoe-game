@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  padding: 30px;
+  font-family: sans-serif;
+}
+
+.board-container {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.row{
+  height: 33%;
+  box-sizing: border-box;
+}
+
+.cell {
+  box-sizing: border-box;
+  border: 1px solid black;
+  display: inline-block;
+  width: 33%;
+  height: 100%;
+  font-size: 20px;
+  vertical-align: top;
+  padding-top: 35px;
+}
