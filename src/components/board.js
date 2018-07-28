@@ -25,7 +25,8 @@ export default class Board extends React.Component{
         ['', '', ''], 
         ['', '', '']
       ],
-      winner: ''
+      winner: '',
+      turnCount: 1
     }
   };
 
@@ -57,7 +58,8 @@ export default class Board extends React.Component{
 
       this.setState({
         xIsNext: !this.state.xIsNext,
-        currentVals: updateVals
+        currentVals: updateVals,
+        turnCount: this.state.turnCount + 1
       });
 
       for(let i = 0; i < this.possibleWins.length; i++){
@@ -76,7 +78,8 @@ export default class Board extends React.Component{
         ['', '', ''], 
         ['', '', '']
       ],
-      winner: ''
+      winner: '',
+      turnCount: 1
     });
   }
 
@@ -87,7 +90,7 @@ export default class Board extends React.Component{
         <Row rowNum={1} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
         <Row rowNum={2} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
         <Row rowNum={3} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
-        <Message xIsNext={this.state.xIsNext} winner={this.state.winner} resetGame={this.resetGame}/>
+        <Message xIsNext={this.state.xIsNext} winner={this.state.winner}  turnCount={this.state.turnCount} resetGame={this.resetGame}/>
       </div>
     )
   };
