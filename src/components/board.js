@@ -1,98 +1,28 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import Row from './row';
 import Message from './message';
 
-export default class Board extends React.Component{
-  possibleWins = [
-    [ [0,0], [0,1], [0,2] ],
-    [ [1,0], [1,1], [1,2] ],
-    [ [2,0], [2,1], [2,2] ],
-    [ [0,0], [1,0], [2,0] ],
-    [ [0,1], [1,1], [2,1] ],
-    [ [0,2], [1,2], [2,2] ],
-    [ [0,0], [1,1], [2,2] ],
-    [ [2,0], [1,1], [0,2] ],
-  ];
+const Board = function(props){
   
-
-  constructor(){
-    super();
-
-    this.state = {
-      xIsNext: true,
-      currentVals: [
-        ['', '', ''], 
-        ['', '', ''], 
-        ['', '', '']
-      ],
-      winner: '',
-      turnCount: 1
-    }
-  };
-
-
-  checkForWinner = (row1, col1, row2, col2, row3, col3, posArray) => {
-    if ( posArray[row1][col1] !== '' 
-        && posArray[row1][col1] === posArray[row2][col2] 
-        && posArray[row1][col1] === posArray[row3][col3]
-      ){
-      console.log (`WINNER IS PLAYER-${posArray[row1][col1]}`);
-      this.setState({winner: posArray[row1][col1]});
-    }
-  };
-
-
-  placeToken = (row, col) => {
-    let letter;
-
-    if(this.state.xIsNext){
-      letter = 'X';
-    } else {
-      letter = 'O';
-    }
-
-    if(this.state.currentVals[row - 1][col - 1] === '' && this.state.winner === '') {
-      let updateVals = this.state.currentVals;
-
-      updateVals[row - 1][col - 1] = letter;
-
-      this.setState({
-        xIsNext: !this.state.xIsNext,
-        currentVals: updateVals,
-        turnCount: this.state.turnCount + 1
-      });
-
-      for(let i = 0; i < this.possibleWins.length; i++){
-        const array = this.possibleWins[i];
-        this.checkForWinner(array[0][0], array[0][1], array[1][0], array[1][1], array[2][0], array[2][1], this.state.currentVals);
-      }
-    }
-  };
-
-
-  resetGame = () => {
-    this.setState({
-      xIsNext: true,
-      currentVals: [
-        ['', '', ''], 
-        ['', '', ''], 
-        ['', '', '']
-      ],
-      winner: '',
-      turnCount: 1
-    });
-  }
-
-
-  render(){
     return(
       <div className='board-container'>
-        <Row rowNum={1} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
-        <Row rowNum={2} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
-        <Row rowNum={3} placeToken={this.placeToken} currentVals={this.state.currentVals}/>
-        <Message xIsNext={this.state.xIsNext} winner={this.state.winner}  turnCount={this.state.turnCount} resetGame={this.resetGame}/>
+        <Row rowNum={1} currentVals={props.currentVals}/>
+        <Row rowNum={2} currentVals={props.currentVals}/>
+        <Row rowNum={3} currentVals={props.currentVals}/>
+        <Message xIsNext={props.xIsNext} winner={props.winner}  turnCount={props.turnCount} />
       </div>
     )
-  };
-
 };
+
+const mapStoreToProps = (state) => {
+  return {
+    xIsNext: state.xIsNext,
+    currentVals: state.currentVals,
+    winner: state.winner,
+    turnCount: state.turnCount
+  }
+}
+
+export default connect(mapStoreToProps)(Board);
